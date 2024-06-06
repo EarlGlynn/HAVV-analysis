@@ -14,32 +14,41 @@ The State submits the last digits of the SSN, name, and date of birth to the MVA
 
 [See the HAVV page for more details](https://www.ssa.gov/open/havv/)
 
+---
 ## HAVV First Look
 
+---
 ## HAVV Plots
 
+---
 ## Analysis
 
+---
 ### Illinois
 
 ![alt text](Illinois-HAVV-Data-2024-05-25.png "HAVV Data for Illinois")
 
+---
 ### Kansas
 
 ![alt text](Kansas-HAVV-Data-2024-05-25.png "HAVV Data for Kansas")
 
+---
 ### Maryland
 
 ![alt text](Maryland-HAVV-Data-2024-05-25.png "HAVV Data for Maryland")
 
+---
 ### New York
 
 ![alt text](New York-HAVV-Data-2024-05-25.png "HAVV Data for New York")
 
+---
 ### Oregon
 
 ![alt text](Oregon-HAVV-Data-2024-05-25.png "HAVV Data for Oregon")
 
+---
 ### Texas
 
 ![alt text](Texas-HAVV-Data-2024-05-25.png "HAVV Data for Texas")
