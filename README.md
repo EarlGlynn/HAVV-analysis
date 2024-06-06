@@ -41,7 +41,7 @@ The State submits the last digits of the SSN, name, and date of birth to the MVA
 ---
 ### New York
 
-![alt text](New York-HAVV-Data-2024-05-25.png "HAVV Data for New York")
+![alt text](New-York-HAVV-Data-2024-05-25.png "HAVV Data for New York")
 
 ---
 ### Oregon
