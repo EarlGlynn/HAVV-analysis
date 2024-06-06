@@ -1,0 +1,173 @@
+---
+title: "Help America Vote Verification (HAVV) Data -- Plot Driver"
+author: "Earl F Glynn<br><small>watchdoglab.substack.com</small>"
+date: "<small>`r Sys.Date()`</small>"
+output:
+  html_document:
+    code_download: true
+    theme: cerulean
+    toc: yes
+    toc_depth:  3
+    toc_float:
+      collapsed:  yes
+      smooth_scroll: yes
+    number_sections: yes
+    code_folding:  show
+---
+
+```{r Dsetup, echo = FALSE}
+# http://biostat.mc.vanderbilt.edu/wiki/Main/KnitrHtmlTemplate
+require(Hmisc)    # provides knitrSet and other functions
+knitrSet(lang = 'markdown',   # If using blogdown: knitrSet(lang='blogdown')
+         fig.align = 'left',
+         w = 6.5,
+         h = 4.5,
+         cache = FALSE)
+```
+
+`r hidingTOC(buttonLabel = "Outline")`
+
+```{r DstartYourEngines, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment = NA)
+
+time.1 <- Sys.time()
+```
+
+# Backstage {.tabset .tabset-fade .tabset-pills}
+
+## {.active}
+
+## Packages
+
+```{r DPackages}
+library(rmarkdown)
+library(tidyverse)
+library(lubridate)   # date functions
+```
+
+Display formatting
+
+```{r DDisplay}
+library(kableExtra)  # kable_styling
+```
+
+I/O
+
+```{r DIO}
+library(readxl)      # read_xlsx
+library(readr)       # write_csv
+library(writexl)     # write_xlsx
+```
+
+Utilities
+
+```{r DUtilities}
+library(downloader)  # download
+library(tools)       # md5sum
+```
+
+## Helper functions
+
+```{r DHelpers}
+Show <- function(data, caption="", bigMark="",
+                 height = NULL, width = NULL, ...)
+{
+  data                                       |>
+  kable("html", caption=caption,
+        format.args=list(big.mark=bigMark))  |>
+  kable_styling(bootstrap_options=c("striped", "bordered", "condensed"),
+                position="left",
+                full_width=FALSE, ...)       |>
+  scroll_box(height = height, width = width)
+}
+```
+
+# Find recent version and states list
+
+```{r Dsnapshot}
+snapshotList  <- list.files(path = ".", pattern = glob2rx("20*"))  
+
+RECENT_FOLDER <- snapshotList[length(snapshotList)]   # Modify 
+RECENT_FOLDER
+```
+```{r DmodifyFolderName}
+PLOT_FOLDER  <- paste0(RECENT_FOLDER, "/States-Plots")                    #####
+
+if (!dir.exists(PLOT_FOLDER))
+{
+  dir.create(PLOT_FOLDER)
+}
+```                                      
+
+```{r Dstatelist}
+stateList <- read_xlsx(paste0(RECENT_FOLDER, "/HAVV-State-Summary-", RECENT_FOLDER, ".xlsx"))
+dim(stateList)
+```
+
+Can use `stateList$AllZero` to ignore states not using HAVV.
+
+# Process each state
+
+```{r EachState}
+for (i in 1:nrow(stateList))
+{
+  if (stateList$AllZero[i])
+  {
+    cat("\n", i, "All zeros:", stateList$State_Territory[i], "\n\n")
+  } else {
+      cat(i, stateList$State_Territory[i], "\n")
+      
+      rmarkdown::render(
+                         "HAVV-Plot-Template.Rmd",
+                         output_format = html_document(theme      = "cerulean",
+                                                       toc        = TRUE,
+                                                       toc_format = TRUE,
+                                                       toc_float  = TRUE,
+                                                       number_sections = TRUE,
+                                                       code_folding = "hide"),
+    
+                         output_file = paste0("HAVV-Plot-", stateList$State_Territory[i],
+                                              ".html"),
+                         output_dir  = PLOT_FOLDER,
+    
+                         quiet  = TRUE,
+                         params = list(
+                                        DataDate    = RECENT_FOLDER,
+                                        FirstYear   = 2014,
+                                        LastYear    = 2025,
+                                        TargetArea  = stateList$State_Territory[i]
+                                      )
+                       )
+      
+      # Save graphics created by rmarkdown
+      listFiles <- dir(path = ".",  pattern = "^.*\\.png$|^.*\\.pdf$")    
+      newNames <- paste0(PLOT_FOLDER, "/", stateList$State_Territory[i], "-", listFiles) |> str_replace_all("-1\\.", "\\.")
+      file.rename(listFiles, newNames)
+  }
+}
+
+```
+
+# Epilog {.tabset .tabset-fade .tabset-pills}
+
+## {.active}
+
+## Session Info
+
+```{r DdevtoolsSessionInfo}
+devtools::session_info()
+```
+
+</div>
+
+```{r DepilogDeltaTime, echo=FALSE}
+time.2 <- Sys.time()
+processingTime <- paste("Processing time:", sprintf("%.1f",
+                        as.numeric(difftime(time.2,
+                                            time.1, units="secs"))), "secs\n")
+```
+
+`r processingTime`
+`r format(time.2, "%Y-%m-%d %H%M")`

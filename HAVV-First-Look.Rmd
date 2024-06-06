@@ -1,0 +1,706 @@
+---
+title: "Help America Vote Verification (HAVV) Data -- First Look"
+author: "Earl F Glynn<br><small>watchdoglab.substack.com</small>"
+date: "<small>`r Sys.Date()`</small>"
+output:
+  html_document:
+    code_download: true
+    theme: cerulean
+    toc: yes
+    toc_depth:  3
+    toc_float:
+      collapsed:  yes
+      smooth_scroll: yes
+    number_sections: yes
+    code_folding:  show
+---
+
+```{r setup, echo = FALSE}
+# http://biostat.mc.vanderbilt.edu/wiki/Main/KnitrHtmlTemplate
+require(Hmisc)    # provides knitrSet and other functions
+knitrSet(lang = 'markdown',   # If using blogdown: knitrSet(lang='blogdown')
+         fig.align = 'left',
+         w = 6.5,
+         h = 4.5,
+         cache = FALSE)
+```
+
+`r hidingTOC(buttonLabel = "Outline")`
+
+```{r startYourEngines, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment = NA)
+
+time.1 <- Sys.time()
+```
+
+# Backstage {.tabset .tabset-fade .tabset-pills}
+
+## {.active}
+
+## Packages
+
+```{r Packages}
+library(tidyverse)
+library(lubridate)   # date functions
+```
+
+Display formatting
+
+```{r Display}
+library(kableExtra)  # kable_styling
+```
+
+I/O
+
+```{r IO}
+library(readxl)      # read_xlsx
+library(readr)       # write_csv
+library(writexl)     # write_xlsx
+```
+
+Utilities
+
+```{r Utilities}
+library(downloader)  # download
+library(tools)       # md5sum
+```
+
+## Helper functions
+
+```{r Helpers}
+Show <- function(data, caption="", bigMark="",
+                 height = NULL, width = NULL, ...)
+{
+  data                                       |>
+  kable("html", caption=caption,
+        format.args=list(big.mark=bigMark))  |>
+  kable_styling(bootstrap_options=c("striped", "bordered", "condensed"),
+                position="left",
+                full_width=FALSE, ...)       |>
+  scroll_box(height = height, width = width)
+}
+```
+
+# Background
+
+[Social Security Administration Open Government Initiative page](https://www.ssa.gov/open/havv/)
+
+Help America Vote Verification (HAVV) Transactions by State
+
+HAVV Data
+
+* HTML View online after picking a week of interest
+
+* [Entire HAVV data to download](https://www.ssa.gov/open/havv/havv-weekly-usage.xlsx)
+
+The following is from the Social Security site:
+
+## What is HAVA?
+
+*The Help America Vote Act of 2002, P.L. 107-252 (HAVA) requires States to verify the information of newly registered voters for Federal elections. Each State must establish a computerized State-wide voter registration list and verify new voter information with the State’s Motor Vehicle Administration (MVA).*
+
+*The States are required to verify the driver’s license number against the state MVA database. **Only in situations where no driver’s license exists should the states verify the last four digits of the new voter registrant’s Social Security Number (SSN)**.*
+
+## What does this data represent?
+
+This data represents the results of the 4-digit match performed using our HAVV system. We operate HAVV as required by HAVA.
+
+Note: Please address questions about the use of the system by any particular state to the appropriate voter registration official in that state.
+
+## What do these terms mean?
+
+The following list describes the types of data in the HAVV dataset.
+
+1. **Total Transactions**: The total number of verification requests made during the time period.
+
+2. **Unprocessed Transactions**: The total number of verification requests that could not be processed because the data sent to us was invalid, (e.g., missing, not formatted correctly).
+
+3. **Total Non Matches**: The total number of verification requests where there is no match in our records on the name, last four digits of the SSN or date of birth.
+
+4. **Total Matches**: The total number of verification requests where there is at least one match in our records on the name, last four digits of the SSN and date of birth.
+
+5. **Single Match Found - Alive**: The total number of verification requests where there is only one match in our records on name, last four digits of the SSN and date of birth, and the number holder is alive.
+
+6. **Single Match Found - Deceased**: The total number of verification requests where there is only one match in our records on name, date of birth, and last four digits of the SSN, and the number holder is deceased.
+
+7. **Multiple Matches Found - All Alive**: The total number of verification requests where there are multiple matches on name, date of birth, and last four digits of the SSN, and each match indicates the number holder is alive.
+
+8. **Multiple Matches Found - All Deceased**: The total number of verification requests where there are multiple matches on name, date of birth, and the last four digits of the SSN, and each match indicates the number holder is deceased.
+
+9. **Multiple Matches Found - At least one alive and at least one deceased**: The total number of verification requests where there are multiple matches on name, date of birth, and the last four digits of the SSN, and at least one of the number holders is alive and at least one of the number holders is deceased.
+
+## Download entire HAVV Excel file
+
+```{r}
+basename <- "havv-weekly-usage"
+URL <- paste0("https://www.ssa.gov/open/havv/", basename, ".xlsx")
+download(URL, paste0(basename, ".xlsx"), mode="wb", quiet=TRUE)
+```
+
+```{r}
+SHOW_PROBLEMS <- FALSE  # write sheets with problems to file to explore
+```
+
+## Sheets in Excel file
+
+Read list of sheet names in Excel file.
+
+Create tibble to record info about each sheet.
+
+```{r}
+sheets <-
+  tibble(
+           name = excel_sheets(paste0(basename, ".xlsx")),
+           rows = 0,
+           cols = 0,
+           columnNameMatch = FALSE,
+           rowNameMatch    = FALSE
+        )
+
+dim(sheets)
+```
+
+Third `name` is the most recent sheet (after sheets `totals-since-2011` and `totals-2024`)
+
+```{r}
+recentDate <- sheets$name[3]
+recentDate
+```
+
+## Rename file with most recent date
+
+```{r}
+filename <- paste0(basename, "-", recentDate, ".xlsx")
+file.rename(paste0(basename, ".xlsx"), filename)
+```
+
+```{r}
+file.info(filename) |> Show()
+```
+
+```{r}
+md5sum(filename)  # Record `md5sum` so future changes can be detected
+```
+
+## Create folder for recent version
+
+```{r}
+RECENT_FOLDER <- recentDate
+STATE_FOLDER  <- paste0(RECENT_FOLDER, "/States-Data")                    #####
+
+if (!dir.exists(RECENT_FOLDER))
+{
+  dir.create(RECENT_FOLDER)
+  dir.create(STATE_FOLDER)
+}
+```
+
+Move HAVV file to RECENT_FOLDER
+
+```{r}
+file.rename(filename, paste0(RECENT_FOLDER, "/", filename))
+```
+
+```{r}
+filename <- paste0(RECENT_FOLDER, "/", filename)  # update location
+```
+
+## `sheet` checks
+
+Do all sheets start with a year number or word "total".  Let's look at first four characters.
+
+No.  One oddball name.
+
+```{r}
+table(str_sub(sheets$name, 1, 4))
+```
+
+# Recent weekly update
+
+## Raw data
+
+```{r}
+recent <- read_xlsx(filename,
+                    sheet = recentDate,
+                    col_names = FALSE,   # names wrapped over 4 rows
+                    col_types = "text")  # don't guess types
+dim(recent)
+```
+
+```{r}
+write_xlsx(recent, paste0(RECENT_FOLDER, "/HAVV-Recent-Sheet-", recentDate, ".xlsx"))
+```
+
+## Sheet header with column names
+
+All data files should have four rows of column names and one row of dashes
+
+```{r}
+HEADER_ROWS <- 5
+```
+
+```{r}
+recentHeader <-   head(recent, HEADER_ROWS)
+recentHeader[is.na(recentHeader)] <- "-"      # Replace NAs with "-"
+
+recentHeader |> Show()
+```
+
+## Column names
+
+Combine first four rows of header as column name
+
+Use these headers as "norm" for all sheets
+
+```{r}
+smash <- function(header, index)
+{
+  pull(header, index) |> str_flatten(collapse = "|")
+}
+```
+
+Apply to all 10 columns
+
+```{r}
+recentColumnNames <- 1:10 |> map_chr(\(x) smash(recentHeader, x))
+recentColumnNames
+```
+
+## Rows names
+
+Are same states in the same order in all sheets?
+
+```{r}
+recentRowNames <- recent |> pull(`...1`)
+recentRowNames[is.na(recentRowNames)] <- "-"
+
+recentRowNames
+```
+
+Note the "State/Territory" for the final row of the most recent sheet is `Total`.
+
+However, early sheets `2011-01-15` through `2011-03-12` used the plural `Totals` instead.
+
+The older form will be replaced with the recent form below when the sheets are combined.
+
+# Validation checks
+
+## Dimensionality
+
+Do all sheets have the same dimensionality?  Same number of rows and columns?
+
+Let's use `recent` as the "norm".
+
+See [Suppress message of new names](https://github.com/tidyverse/tibble/issues/1549) for info about `.name_repair`.
+
+Use `for` loop here in case there are problems to explore.
+
+```{r}
+for (i in 1:nrow(sheets))
+{
+  havv <- read_xlsx(filename,
+                    sheet = sheets$name[i],
+                    col_names = FALSE,
+                    .name_repair = "unique_quiet",
+                    col_types = "text")  # don't guess types
+  sheets$rows[i] <- nrow(havv)
+  sheets$cols[i] <- ncol(havv)
+
+  # Show only names of problem sheets
+  if (nrow(havv) != nrow(recent) |
+      ncol(havv) != ncol(recent) |
+      str_sub(sheets$name[i], 1, 1) == "0")  # one oddball name
+  {
+    cat(i, sheets$name[i], nrow(havv), ncol(havv), "\n")
+    if (SHOW_PROBLEMS)
+    {
+      write_xlsx(havv, paste0(RECENT_FOLDER, "/Problem-HAVV-Sheet-", sheets$name[i], ".xlsx"))
+    }
+  }
+}
+```
+Review of problem sheets:
+
+* `09092017` has the wrong date format.  Should be:  `2017-09-09`
+
+* `2014-01-04` has 13 extra "blank" rows after the Total row, followed by a row of numbers without any explanation.  What are these numbers?
+
+`27752  0  18522  9230  9081  147  2  0  0`
+
+* `2013-09-07` through `2013-07-27` have 16,000+ extra "blank" columns
+
+The sheets with 16138 columns will be a problem, but the extra columns can be ignored.
+
+## Column and row names
+
+Do sheets all have same 4-line column names?  [Yes, except for one]
+
+Do sheets all have same state row names in the same order?  [Not in past years; might be OK?]
+
+Again, use `recent` as the norm.
+
+Look at headers, look at first column, in all sheets.
+
+Use `for` loop here in case there are problems to explore.
+
+```{r}
+for (i in 1:nrow(sheets))
+{
+  havv <- read_xlsx(filename,
+                    sheet = sheets$name[i],
+                    col_names = FALSE,
+                    .name_repair = "unique_quiet",
+                    col_types = "text")  # don't guess types
+
+  header <- head(havv, HEADER_ROWS)
+  header[is.na(header)] <- "-"
+  columnNames <- 1:10 |> map_chr(\(x) smash(header, x))
+
+  # Show only column names of problem sheets
+  if (!all(columnNames == recentColumnNames))
+  {
+    cat(i, sheets$name[i], "Column names mismatch\n")
+    cat(columnNames, "\n")
+
+    if (SHOW_PROBLEMS)
+    {
+      write_xlsx(havv, paste0(RECENT_FOLDER, "Problem-HAVV-Sheet-Column-Names-", sheets$name[i], ".xlsx"))
+    }
+  } else {
+     sheets$columnNameMatch[i] <- TRUE
+  }
+
+  rowNames <- havv |> pull(`...1`)
+  rowNames[is.na(rowNames)] <- "-"
+
+   # Too many to show here, so record only in Sheets-Summary
+  if (all(rowNames == recentRowNames))
+  {
+     sheets$rowNameMatch[i] <- TRUE
+  }
+
+}
+```
+
+Review of problem sheet:
+
+Sheet `2012-08-18` has a blank row 5 instead of a row of dashes under the column names.  OK to ignore.
+
+## Sheet Summary
+
+```{r}
+write_xlsx(sheets, paste0(RECENT_FOLDER, "/HAVV-Sheets-Summary-",recentDate, ".xlsx"))
+```
+
+# Combine all sheets
+
+Analysis by state is quite difficult when Excel sheets are by week.
+
+Let's combine all sheets into single table to make analysis easier.
+
+## Helper function
+
+Function to read and prepare sheet to be combined with all others
+
+Turns out, all the numbers are characters when read as an Excel file.
+
+Use `range` to avoid problems with the 6 sheets with >16,000 columns, and rbinding the results.
+
+```{r}
+read_havv_sheet <- function(filename, sheetname)
+{
+  havv <-
+    read_xlsx(filename,
+              sheet = sheetname,
+              col_names = FALSE,
+              range = cell_cols("A:J"),
+              .name_repair = "unique_quiet") |>
+    mutate(Sheet = sheetname)                |>
+    relocate(Sheet)                          |>
+    tail(-HEADER_ROWS)                       |>    # ignore multi-row column names
+    rename(
+            State_Territory           = `...1`,
+            Total_Transactions        = `...2`,
+            Unprocessed_Transactions  = `...3`,
+            Z_Total_Nonmatches        = `...4`,
+            Total_Matches             = `...5`,
+            X_Single_Match_Alive      = `...6`,
+            Y_Single_Match_Deceased   = `...7`,
+            V_Multiple_Match_Alive    = `...8`,
+            T_Multiple_Match_Deceased = `...9`,
+            W_Multiple_Match_Mixed    = `...10`
+          )
+}
+
+```
+
+With all checks above, OK to use purrr's `map_dfr` to read all sheets into a single tibble.
+
+`map_dfr` creates data frame and rbinds all rows.
+
+```{r}
+havvAll <-
+  sheets$name |>
+  map_dfr(\(x) read_havv_sheet(filename, x))
+
+dim(havvAll)
+```
+
+# Cleanup
+
+## Fix `TOTALS`
+
+Change "TOTALS" to "Total" in `State_Territory` in some very early sheets
+
+```{r}
+fixTotal <- which(havvAll$State_Territory == "TOTALS")
+havvAll$Sheet[fixTotal]
+```
+
+```{r}
+havvAll$State_Territory[fixTotal] <- "Total"
+```
+
+## Standardize capitalization of states/territories
+
+```{r}
+havvAll <-
+  havvAll   |>
+  mutate(State_Territory = str_to_title(State_Territory))
+```
+
+Fix `Nebrasks`
+
+```{r}
+havvAll$State_Territory[havvAll$State_Territory == "Nebrasks"] <- "Nebraska"
+```
+
+```{r}
+table(havvAll$State_Territory)
+```
+
+Note `Total` "state" is listed with each sheet.
+
+## Fix problem sheet name
+
+```{r}
+table(havvAll$Sheet)
+```
+
+sheet `09092017` should have been `2017-09-09` to be consistent with other sheets
+
+```{r}
+problemRows <- havvAll$Sheet == "09092017"
+havvAll$Sheet[problemRows] <- "2017-09-09"
+sum(problemRows)
+```
+
+## Convert character fields to numeric
+
+R's syntax to identify an anonymous function here (as.numeric) is a bit obtuse.
+
+```{r}
+havvAll <-
+  havvAll |>
+  mutate(
+          across(3:last_col(), ~ as.numeric(.))
+        )
+```
+
+## Add new values
+
+* Analysis percentages:  `PercentNonMatch`, `PercentMatchDeceased`
+
+Date values:  `Year`, Date`, `DayOfYear`, `ISOyear`, `ISOweek`
+
+These values may be helpful  in creating plots.
+
+```{r}
+havvAll <-
+  havvAll  |>
+  mutate(
+         PercentNonMatch      = round(100 * Z_Total_Nonmatches / Total_Transactions, 3),
+
+         # ignore W_Multiple_Match_Mixed since it's ambiguous
+         PercentMatchDeceased = round(100 * (Y_Single_Match_Deceased +
+                                             T_Multiple_Match_Deceased) / Total_Matches, 3),
+
+         Year = case_when(
+                           str_sub(Sheet, 1, 6) == "totals"  ~ str_sub(Sheet, -4),   # last 4
+                           TRUE                              ~ str_sub(Sheet, 1, 4)  # first 4
+                         ),
+         Year = as.numeric(Year),
+
+         Date       = ymd(Sheet),    # will create warnings for failed conversions (ignore)
+         DayOfYear  = yday(Date),
+
+         ISOyear    = isoyear(Date),
+         ISOweek    = isoweek(Date)
+        )
+
+```
+Parse failure OK here, since it's from a total line.
+
+## Don't show `Year` column for `totals-since-2011`
+
+When sorted later, this forces state total for all time to be the last line.
+
+```{r}
+problemRows <- havvAll$Sheet == "totals-since-2011"
+havvAll$Year[problemRows] <- NA
+sum(problemRows)
+```
+
+# Create Excel and CSV versions of combined data
+
+```{r}
+write_xlsx(havvAll, paste0(RECENT_FOLDER, "/HAVV-Through-",recentDate, ".xlsx"))
+write_csv (havvAll, paste0(RECENT_FOLDER, "/HAVV-Through-",recentDate, ".csv"))
+
+nrow(havvAll)
+```
+
+# State summary
+
+## Sort to put totals at end of year
+
+Sort by state, Year, Date.  This will put yearly totals at the top.
+
+```{r}
+havvAll <-
+  havvAll  |>
+  arrange(State_Territory, Year, Date)
+
+dim(havvAll)
+```
+
+```{r}
+write_xlsx(havvAll, paste0(RECENT_FOLDER, "/HAVV-by-State-Through-",recentDate, ".xlsx"))
+```
+
+## Split by state
+
+```{r}
+stateList <-
+  havvAll                          |>
+  filter(!is.na(State_Territory))  |>  # exclude blank/noise lines from sheet `2014-01-04`
+  group_split(State_Territory)
+
+length(stateList)
+```
+
+```{r}
+stateSummary <-
+  tibble(
+          State    = lapply(stateList, function(x) x$State_Territory[1]) |> unlist(),
+          Matches  = 0,
+          AllZero  = FALSE
+        )
+
+dim(stateSummary)
+```
+
+```{r}
+for (state in 1:length(stateList))
+{
+  stateName <- stateSummary$State[state]
+
+  # Compute new state totals across all rows for all columns to verify
+
+  havv <- stateList[[state]]
+  raw <- havv  |> filter(!is.na(Date))  # exclude total lines
+
+  havv <-
+  bind_rows(
+             havv,
+             colSums(Filter(is.numeric, raw), na.rm = TRUE)[1:9],  # kludge
+           )
+
+  havv$Sheet[nrow(havv)] <- "COMPUTED"
+
+  stateSummary$Matches[state]  <- sum(havv[nrow(havv), 3:11] == havv[nrow(havv)-1, 3:11], na.rm = TRUE)
+
+  allZero <- havv$Total_Transactions[nrow(havv)-1] == 0
+  stateSummary$AllZero[state] <- allZero
+
+  write_xlsx(havv,
+             paste0(STATE_FOLDER,
+                    "/", stateName,
+                    "-HAVV-through-", recentDate,
+                    ifelse(allZero, "-ALLZERO", ""),
+                    ".xlsx"))
+}
+```
+
+## Weekly Stats by State (all years)
+
+Will have a "Total" state
+
+```{r}
+weekly <-
+  havvAll  |>
+  filter(!is.na(Date))   # ignore total rows
+
+dim(weekly)
+```
+
+```{r}
+weeklyByState <-
+  weekly                    |>
+  group_by(State_Territory) |>
+  summarize(
+             Records = n(),
+
+             minTransactions     = min(Total_Transactions, na.rm = TRUE),
+             meanTransactions    = round(mean(Total_Transactions, na.rm = TRUE)),
+             medianTransactions  = round(median(Total_Transactions, na.rm = TRUE)),
+             maxTransactions     = max(Total_Transactions, na.rm = TRUE),
+
+             minNonMatch         = min(PercentNonMatch, na.rm = TRUE),
+             meanNonMatch        = round(mean(PercentNonMatch, na.rm = TRUE)),
+             medianNonMatch      = round(median(PercentNonMatch, na.rm = TRUE)),
+             maxNonMatch         = max(PercentNonMatch, na.rm = TRUE),
+
+             minMatchDeceased    = min(PercentMatchDeceased, na.rm = TRUE),
+             meanMatchDeceased   = round(mean(PercentMatchDeceased, na.rm = TRUE)),
+             medianMatchDeceased = round(median(PercentMatchDeceased, na.rm = TRUE)),
+             maxMatchDeceased    = max(PercentMatchDeceased, na.rm = TRUE),
+           )                |>
+  inner_join(stateSummary, by = c("State_Territory" = "State"))
+```
+Warnings OK since some states have little or no data
+
+```{r}
+options(scipen = 999)
+weeklyByState |> Show()
+```
+
+## Save State Summary
+
+```{r}
+write_xlsx(weeklyByState, paste0(RECENT_FOLDER, "/HAVV-State-Summary-",recentDate, ".xlsx"))
+```
+
+# Epilog {.tabset .tabset-fade .tabset-pills}
+
+## {.active}
+
+## Session Info
+
+```{r devtoolsSessionInfo}
+devtools::session_info()
+```
+
+</div>
+
+```{r epilogDeltaTime, echo=FALSE}
+time.2 <- Sys.time()
+processingTime <- paste("Processing time:", sprintf("%.1f",
+                        as.numeric(difftime(time.2,
+                                            time.1, units="secs"))), "secs\n")
+```
+
+`r processingTime`
+`r format(time.2, "%Y-%m-%d %H%M")`

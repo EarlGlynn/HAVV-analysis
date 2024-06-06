@@ -1,0 +1,324 @@
+---
+output:
+  html_document:
+    code_download: true
+    theme: cerulean
+    toc: yes
+    toc_depth:  3
+    toc_float:
+      collapsed:  yes
+      smooth_scroll: yes
+    number_sections: yes
+    code_folding:  show
+params:
+  DataDate:    "2024-05-25"
+  FirstYear:   2014
+  LastYear:    2025
+  TargetArea:  "Kansas"
+title: "Help America Vote Verification (HAVV) Data -- `r params$TargetArea`"
+author: "Earl F Glynn<br><small>watchdoglab.substack.com</small>"
+date: "<small>`r Sys.Date()`</small>"
+---
+
+```{r TableOfContents, echo = FALSE}
+# http://biostat.mc.vanderbilt.edu/wiki/Main/KnitrHtmlTemplate
+require(Hmisc)    # provides knitrSet and other functions
+knitrSet(lang = 'markdown',   # If using blogdown: knitrSet(lang='blogdown')
+         fig.align = 'left',
+         w = 6.5,
+         h = 4.5,
+         cache = FALSE)
+```
+
+`r hidingTOC(buttonLabel = "Outline")`
+
+```{r startYourEngines, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment = NA)
+
+time.1 <- Sys.time()
+```
+
+# Backstage {.tabset .tabset-fade .tabset-pills}
+
+## {.active}
+
+## Constants
+
+```{r}
+EXCEL_LIMIT <- 2^20
+```
+
+## Packages
+
+```{r Packages}
+library(tidyverse)
+library(lubridate)   # date functions
+```
+
+Display formatting
+
+```{r Display}
+library(kableExtra)  # kable_styling
+```
+
+I/O
+
+```{r IO}
+library(readxl)      # read_xlsx
+library(readr)       # write_csv
+library(writexl)     # write_xlsx
+```
+
+Graphics
+
+```{r Graphics}
+library(scales)      # comma, comma_format
+library(ggpubr)
+```
+
+Utilities
+
+```{r Utilities}
+library(downloader)  # download
+library(tools)       # md5sum
+```
+
+## ggplot theme
+
+[ggplot Themes Gallery](https://www.datanovia.com/en/blog/ggplot-themes-gallery/)
+
+```{r ggplotTheme}
+theme_set(theme_minimal() +
+
+          theme(
+                  axis.text             = element_text(size = 12),
+                  axis.title            = element_text(size = 14),
+
+                  legend.position       = "bottom",
+
+                  plot.caption          = element_text(hjust = c(0.0, 1.0),
+                                                       size = 8),
+                  plot.caption.position = "plot",
+
+                  plot.title.position   = "plot",
+                  plot.title            = element_text(size = 14),
+                  plot.subtitle         = element_text(size = 12, color = "blue"),
+
+                  strip.background      = element_rect(fill = "aliceblue"),
+                  strip.text            = element_text(size = 14),
+
+                  title                 = element_text(size = 14))
+               )
+
+COLOR_BAR     <- "skyblue"
+COLOR_OUTLINE <- "grey80"
+```
+
+## Helper functions
+
+```{r Helpers}
+Show <- function(data, caption="", bigMark="",
+                 height = NULL, width = NULL, ...)
+{
+  data                                       %>%
+  kable("html", caption=caption,
+        format.args=list(big.mark=bigMark))  %>%
+  kable_styling(bootstrap_options=c("striped", "bordered", "condensed"),
+                position="left",
+                full_width=FALSE, ...)       %>%
+  scroll_box(height = height, width = width)
+}
+```
+
+# Setup
+
+```{r Caption}
+CAPTION <- paste("Source:  Social Security Help America Vote Verification (HAVV) Transactions by State\nEntire Dataset,",
+                 params$DataDate)
+
+stamp   <- paste("efg", format(Sys.time(), "%Y-%m-%d"))
+```
+
+# Load weekly data
+
+```{r LoadData}
+havvWeekly <-
+  read_xlsx(paste0(params$DataDate, "/HAVV-Through-", params$DataDate, ".xlsx"))  |>
+  filter(
+          !is.na(Year),                 # Exclude yearly total lines
+          State_Territory != "Total"    # Exclude weekly total lines
+        )
+dim(havvWeekly)
+```
+
+```{r StateCounts}
+stateCounts <- table(havvWeekly$State_Territory)
+length(stateCounts)
+```
+TargetArea
+
+```{r TargetArea}
+targetArea <-
+  havvWeekly                            |>
+  filter(State_Territory == params$TargetArea,
+         !is.na(Date),
+         Year >= params$FirstYear,
+         Year <= params$LastYear)       |>
+  arrange(Sheet)                       
+dim(targetArea)
+```
+
+# Total Transactions
+
+```{r SetRange}
+startDate <- as.POSIXct(paste0(params$FirstYear, "-01-01"))
+endDate   <- startDate + years(params$LastYear - params$FirstYear)
+```
+
+```{r TotalTransactions, fig.width = 8, fig.height = 3.5, warning = FALSE}
+plotTransactions <- 
+  ggplot(targetArea, aes(x = Date, y = Total_Transactions))     +
+  geom_step(size = 1.5, color = "blue")                         +
+
+  scale_x_datetime(
+                    date_labels  = "%Y",                        # "%Y\n%m"
+                    date_breaks  = "1 year",
+               #    date_minor_breaks = "3 months",             # These DO NOT align correctly. Why?
+                    limits       = c(startDate, endDate)
+               #    expand = expansion(0, 0)                    # This solution for breaks, truncates axis labels
+                  )                                                          +
+  scale_y_continuous(limits = c(0, NA),
+                     labels = scales::comma)                                 +
+  geom_vline(xintercept = seq(from = startDate, to = endDate, by = "year" ),
+               color = "grey", linetype = "dashed", size = 1)                +
+  labs(
+         title = paste0("HAVV Data for ", params$TargetArea, ":  Total Transactions"),
+         x = "Week",
+         y = "Total Transactions",
+         caption = c(CAPTION, stamp)
+       )                                                                     +
+  theme(
+          panel.grid.minor.x = element_blank(),  # these do not align correctly
+          panel.grid.minor.y = element_blank(),  # these are not wanted
+
+       )
+
+print(plotTransactions)
+```
+
+# Percent NonMatches
+
+```{r PercentNonMatch, fig.width = 8, fig.height = 3.5, warning = FALSE}
+plotNonMatch <-
+  ggplot(targetArea, aes(x = Date, y = PercentNonMatch))        +
+  geom_step(size = 1.5, color = "red")                          +
+
+  scale_x_datetime(
+                    date_labels  = "%Y",                        # "%Y\n%m"
+                    date_breaks  = "1 year",
+               #    date_minor_breaks = "3 months",             # These DO NOT align correctly. Why?
+                    limits       = c(startDate, endDate)
+               #    expand = expansion(0, 0)                    # This solution for breaks, truncates axis labels
+                  )                                                          +
+  scale_y_continuous(labels = scales::comma)                                 +
+  geom_vline(xintercept = seq(from = startDate, to = endDate, by = "year" ),
+               color = "grey", linetype = "dashed", size = 1) +
+  labs(
+         title = paste0("HAVV Data for ", params$TargetArea, ":  Percent Nonmatching Transactions"),
+         x = "Week",
+         y = "Percent Nonmatching",
+         caption = c(CAPTION, stamp)
+       )                                                                     +
+  theme(
+          panel.grid.minor.x = element_blank(),  # these do not align correctly
+          panel.grid.minor.y = element_blank(),  # these are not wanted
+
+       )
+
+print(plotNonMatch)
+```
+
+# Percent Deceased in Matching Transactions
+
+```{r PercentMatchDeceased, fig.width = 8, fig.height = 3.5, warning = FALSE}
+plotMatchDeceased <-
+  ggplot(targetArea, aes(x = Date, y = PercentMatchDeceased))     +
+  geom_step(size = 1.5, color = "black")                          +
+
+  scale_x_datetime(
+                    date_labels  = "%Y",                        # "%Y\n%m"
+                    date_breaks  = "1 year",
+               #    date_minor_breaks = "3 months",             # These DO NOT align correctly. Why?
+                    limits       = c(startDate, endDate)
+               #    expand = expansion(0, 0)                    # This solution for breaks, truncates axis labels
+                  )                                                          +
+  scale_y_continuous(labels = scales::comma )                                +
+  geom_vline(xintercept = seq(from = startDate, to = endDate, by = "year" ),
+               color = "grey", linetype = "dashed", size = 1.25) +
+  labs(
+         title = paste0("HAVV Data for ", params$TargetArea, ":  Percent Deceased in Matching Transactions"),
+         x = "Week",
+         y = "Matching Percent Deceased",
+         caption = c(CAPTION, stamp)
+       )                                                                     +
+  theme(
+          panel.grid.minor.x = element_blank(),  # these do not align correctly
+          panel.grid.minor.y = element_blank(),  # these are not wanted
+
+       )
+
+print(plotMatchDeceased)
+```
+
+# Three grapics in one
+
+```{r CreatePDF, fig.width = 8.5, fig.height = 11}
+pdf(paste0("HAVV-Data-", params$DataDate, ".pdf"),
+    width = 8.5, height = 11)
+ 
+figure <- 
+  ggarrange(plotTransactions, plotNonMatch, plotMatchDeceased,
+            labels = c("", "", ""),
+            ncol = 1, nrow = 3)
+print(figure)
+
+dev.off()
+```
+
+```{r CreatePNG, fig.width = 8.5, fig.height = 11}
+png(paste0("HAVV-Data-", params$DataDate, ".png"),
+    units = "in", width = 8.5, height = 11, pointsize = 12, res =300)
+ 
+figure <- 
+  ggarrange(plotTransactions, plotNonMatch, plotMatchDeceased,
+            labels = c("", "", ""),
+            ncol = 1, nrow = 3)
+print(figure)
+
+dev.off()
+```
+
+# Epilog {.tabset .tabset-fade .tabset-pills}
+
+## {.active}
+
+## Session Info
+
+```{r devtoolsSessionInfo}
+devtools::session_info()
+```
+
+</div>
+
+```{r epilogDeltaTime, echo=FALSE}
+time.2 <- Sys.time()
+processingTime <- paste("Processing time:", sprintf("%.1f",
+                        as.numeric(difftime(time.2,
+                                            time.1, units="secs"))), "secs\n")
+```
+
+`r processingTime`
+`r format(time.2, "%Y-%m-%d %H%M")`
+
