@@ -1,6 +1,8 @@
-# HAVV-analysis
+# Help America Vote Verification (HAVV) Analysis
 
 The Social Security Administration provides an Open Government Initiative page with a section about the [Help America Vote Verification (HAVV) Transactions by State](https://www.ssa.gov/open/havv/).
+
+The online data is not useful for analysis. The [Excel file with all the data in over 700 sheets](https://www.ssa.gov/open/havv/havv-weekly-usage.xlsx) is not so useful for direct analysis.
 
 ** What is HAVA?**
 
@@ -20,25 +22,25 @@ The State submits the last digits of the SSN, name, and date of birth to the MVA
 
 ### Illinois
 
-![HAVV Data for Illinois](2024-05-25/State-PNGs/Illinois-HAVV-Data-2024-05-25.png)
+![alt text](2024-05-25/State-PNGs/Illinois-HAVV-Data-2024-05-25.png "HAVV Data for Illinois")
 
 ### Kansas
 
-![HAVV Data for Kansas](2024-05-25/State-PNGs/Kansas-HAVV-Data-2024-05-25.png)
+![alt text](2024-05-25/State-PNGs/Kansas-HAVV-Data-2024-05-25.png "HAVV Data for Kansas")
 
 ### Maryland
 
-![HAVV Data for Maryland](2024-05-25/State-PNGs/Maryland-HAVV-Data-2024-05-25.png)
+![alt text](2024-05-25/State-PNGs/Maryland-HAVV-Data-2024-05-25.png "HAVV Data for Maryland")
 
 ### New York
 
-![HAVV Data for New York](2024-05-25/State-PNGs/New York-HAVV-Data-2024-05-25.png)
+![alt text](2024-05-25/State-PNGs/New York-HAVV-Data-2024-05-25.png "HAVV Data for New York")
 
 ### Oregon
 
-![HAVV Data for Oregon](2024-05-25/State-PNGs/Oregon-HAVV-Data-2024-05-25.png)
+![alt text](2024-05-25/State-PNGs/Oregon-HAVV-Data-2024-05-25.png "HAVV Data for Oregon")
 
 ### Texas
 
-![HAVV Data for Texas](2024-05-25/State-PNGs/Texas-HAVV-Data-2024-05-25.png)
+![alt text](2024-05-25/State-PNGs/Texas-HAVV-Data-2024-05-25.png "HAVV Data for Texas")
 
