@@ -1,1 +1,2 @@
-*.[Rr]md  linguist-detectable
+*.rmd  linguist-detectable
+*.Rmd  linguist-detectable
