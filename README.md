@@ -53,9 +53,9 @@ Some other states have very low or erratic reporting over time:  Delaware, Missi
 
 All 700+ HAVV sheets are combined into a single sheet in an Excel file -- this file is much easier to use in analysis than the original file.  A separate CSV file with the same content is also created.
 
-  * **HAVV-Through-yyyy-mm-dd.xlsx**
+  + **HAVV-Through-yyyy-mm-dd.xlsx**
 
-  * **HAVV-Through-2024-05-25.csv**
+  + **HAVV-Through-2024-05-25.csv**
 
 These files can be filtered or sorted in Excel.
 
@@ -76,7 +76,18 @@ These state files have the same added columns as the composite files.
 
 ## HAVV Plots
 
-The RStudio Studio
+The RStudio notebook **HAVV-Plot-Template.Rmd** can be use to create a plot for a specific state over a specified range of years using the *parms* in the YAML header.
+
+This template is intended to be used with the **HAVV-Plot-Driver.Rmd** to creat plots in a subfolder **States-Plots**, which will contain a combination of PNG and PDF graphics files.
+
+The template notebook reads the composite file **HAVV-Through-yyyy-mm-dd.xlsx** for the HAVV data to create all plots.
+
+The current driver notebook finds the most current yyyy-mdd-dd subfolder automatically.
+
+Columns in the state summary are used to suppress creation of plots for state not using HAVV.
+
+TO DO:  The year grid lines in the composite ggplot do not quite align across all three subplots.  The goal is to make the year lines align across plots for easier comparisons.
+
 
 ---
 # Analysis
