@@ -4,7 +4,7 @@ The Social Security Administration provides an Open Government Initiative page w
 
 The online data is not useful for analysis. The [Excel file with all the data in over 700 sheets](https://www.ssa.gov/open/havv/havv-weekly-usage.xlsx) is not so useful for direct analysis.
 
-[Info below is form the HAVV page](https://www.ssa.gov/open/havv/).  See this page for more details.
+[Info below is from the HAVV page](https://www.ssa.gov/open/havv/).  See this page for more details.
 
 **What is HAVA?**
 
@@ -17,11 +17,13 @@ The online data is not useful for analysis. The [Excel file with all the data in
 ---
 # Technical information
 
+This approach starts with the authorative Social Security HAVV data source and provides complete data provenance through the creation of derived files or plots.
+
 ## HAVV First Look
 
 The RStudio notebook **HAVV-First-Look.Rmd** downloads the current HAVV Excel file from the Social Security site and provides a first look at the 700+ sheets in the file.
 
-Output files and folders are created in a subfolder with the name of the current sheet (for now the third one in the downlaoded Excel file).  The current sheet and subfolder name has format **yyyy-mm-dd** which currently is **2024-05-25**. As HAVV data is updated when new sheets, future runs will automaticlaly create folders with the latest sheet name.  This allows easy comparison over time.
+Output files and folders are created in a subfolder with the name of the current sheet (for now the third one in the downloaded Excel file).  The current sheet and subfolder name has format **yyyy-mm-dd** which currently is **2024-05-25**. As HAVV data is updated when new sheets, future runs will automatically create folders with the latest sheet name.  This allows easy comparison over time.
 
 [Many Excel files have a sheetname prefix so they will have distinct names -- this is to avoid a problem since Microsoft does not allow two Excel files with the same to be opened at the same time for comparison.]
 
@@ -39,21 +41,21 @@ Column *rowNameMatch* shows not all sheets have the same state row names as the 
 
 * State summary:  **HAVV-State-Summary-yyyy-mm-dd-Edited.xlsx**
 
-This Excel file summarizes HAVV info by state -- and the District of Columnbia.
+This Excel file summarizes HAVV info by state -- and the District of Columbia.
 
-For some reason Alabama and Hawaii are "off by one" in the number of records compared to other states.  This issue should be explored.  The *Matches* column shows only 4 of the 9 computed columns sum match for these states  -- all nine computed sums match in all other states.
+For some reason Alabama and Hawaii are "off by one" in the number of records compared to other states.  This issue should be explored.  The *Matches* column shows only 4 of the 9 computed columns sum match for these states -- all nine computed sums match in all other states.
 
 The *AllZero* column is TRUE for states with 0s for all sheet dates since they are not using HAVV, including Kentucky, New Mexico, North Dakota, South Carolina, Tennessee, Virginia and West Virginia. Plots are not made for these states in the next section.
 
-Some other states have very low or erratic reporting over time:  Delware, Mississippi, New Hampshire, Oklahoma, and some others.  Plots may be suppressed for these stats in future runs.
+Some other states have very low or erratic reporting over time:  Delaware, Mississippi, New Hampshire, Oklahoma, and some others.  Plots may be suppressed for these stats in future runs.
 
 * **Composite files**
 
 All 700+ HAVV sheets are combined into a single sheet in an Excel file -- this file is much easier to use in analysis than the original file.  A separate CSV file with the same content is also created.
 
-**  **HAVV-Through-yyyy-mm-dd.xlsx**
+  * **HAVV-Through-yyyy-mm-dd.xlsx**
 
-**  **HAVV-Through-2024-05-25.csv**
+  * **HAVV-Through-2024-05-25.csv**
 
 These files can be filtered or sorted in Excel.
 
@@ -67,12 +69,14 @@ A filename suffix of "-ALLZERO" is used to identify states not participating in 
 
 These state files show a row for each of the 700+ original sheets, as well as yearly totals and a *totals-since-2011* row present in the downloaded file.
 
-A finaly *COMPUTED* row is the sum of all the sheets (excluding the total rows) to verify the file matches the *totals-since-2011* row.
+A final *COMPUTED* row is the sum of all the sheets (excluding the total rows) to verify the file matches the *totals-since-2011* row.
 
 These state files have the same added columns as the composite files.
 
 
 ## HAVV Plots
+
+The RStudio Studio
 
 ---
 # Analysis
@@ -107,3 +111,5 @@ These state files have the same added columns as the composite files.
 
 ![alt text](Texas-HAVV-Data-2024-05-25.png "HAVV Data for Texas")
 
+---
+Acknowledgement:  Thanks to the Lone Racoon for his pioneering work on HAVV.
