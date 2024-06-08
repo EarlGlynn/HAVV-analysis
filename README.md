@@ -166,7 +166,9 @@ The nonmatching rate (red line) while the whole state file was processed was abo
 
 The match but deceased rate (black line) has been trending upward since late 2020.
 
-During the week of March 23, 2024 the HAVV file shows Kansas had 1067 total transactions week with 835 matches -- so 232 or 21.7% did not match that week.  But of those 835 matches, the HAVV data shows 447 "Single Match Deceased", which indicates 53.5% of the matches were possibly deceased.  Isn't this an unusually high death rate and worthy of investigation?
+During the week of March 23, 2024 the HAVV file shows Kansas had 1067 total transactions with 835 matches -- so 232 or 21.7% did not match that week (red line).
+
+But of those 835 matches, the HAVV data shows 447 were "Single Match Deceased", which indicates 53.5% of the matches were possibly deceased.  Isn't this an unusually high death rate and worthy of investigation?
 
 
 ![alt text](Kansas-HAVV-Data-2024-05-25.png "HAVV Data for Kansas")
