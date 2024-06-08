@@ -63,25 +63,22 @@ In addition to all the original HAVV data, some percentages are computed, as wel
 
 The fields in the HAVV file used in computations useful for the plots include:
 
-* Total_Transactions
-
-* Total_Matches
-
-* T_Multiple_Match_Deceased
-
-* * Y_Single_Match_Deceased
-
-* Z_Total_Nonmatches
-
+```
+Total_Transactions
+Total_Matches
+T_Multiple_Match_Deceased
+Y_Single_Match_Deceased
+Z_Total_Nonmatches
+```
 
 Here is the R code used to create values for the plots:
 
 ```
-     PercentNonMatch      = round(100 * Z_Total_Nonmatches / Total_Transactions, 3),
+PercentNonMatch = round(100 * Z_Total_Nonmatches / Total_Transactions, 3),
 
-     # ignore W_Multiple_Match_Mixed since it's ambiguous
-     PercentMatchDeceased = round(100 * (Y_Single_Match_Deceased +
-                                        T_Multiple_Match_Deceased) / Total_Matches, 3),
+# ignore W_Multiple_Match_Mixed since it's ambiguous
+PercentMatchDeceased = round(100 * (Y_Single_Match_Deceased +
+                                    T_Multiple_Match_Deceased) / Total_Matches, 3),
 ```
 
 * **State-Data** folder
