@@ -14,6 +14,26 @@ The online data is not useful for analysis. The [Excel file with all the data in
 
 *The State submits the last digits of the SSN, name, and date of birth to the MVA for verification with SSA. In addition, SSA is required to report whether its records indicate that the registrant is deceased.*
 
+The Social Security site provides this information about the HAVV data fields:
+
+1. **Total Transactions**: The total number of verification requests made during the time period.
+
+2. **Unprocessed Transactions**: The total number of verification requests that could not be processed because the data sent to us was invalid, (e.g., missing, not formatted correctly).
+
+3. **Total Non Matches**: The total number of verification requests where there is no match in our records on the name, last four digits of the SSN or date of birth.
+
+4. **Total Matches**: The total number of verification requests where there is at least one match in our records on the name, last four digits of the SSN and date of birth.
+
+5. **Single Match Found - Alive**: The total number of verification requests where there is only one match in our records on name, last four digits of the SSN and date of birth, and the number holder is alive.
+
+6. **Single Match Found - Deceased**: The total number of verification requests where there is only one match in our records on name, date of birth, and last four digits of the SSN, and the number holder is deceased.
+
+7. **Multiple Matches Found - All Alive**: The total number of verification requests where there are multiple matches on name, date of birth, and last four digits of the SSN, and each match indicates the number holder is alive.
+
+8. **Multiple Matches Found - All Deceased**: The total number of verification requests where there are multiple matches on name, date of birth, and the last four digits of the SSN, and each match indicates the number holder is deceased.
+
+9. **Multiple Matches Found - At least one alive and at least one deceased**: The total number of verification requests where there are multiple matches on name, date of birth, and the last four digits of the SSN, and at least one of the number holders is alive and at least one of the number holders is deceased.
+
 ---
 # Technical information
 
@@ -23,9 +43,9 @@ This approach starts with the authoritative Social Security HAVV data source and
 
 The RStudio notebook **HAVV-First-Look.Rmd** downloads the current HAVV Excel file from the Social Security site and provides a first look at the 700+ sheets in the file.
 
-Output files and folders are created in a subfolder with the name of the current sheet (for now the third one in the downloaded Excel file).  The current sheet and subfolder name has format **yyyy-mm-dd** which currently is **2024-05-25**. As HAVV data is updated when new sheets, future runs will automatically create folders with the latest sheet name.  This allows easy comparison over time.
+Output files and folders are created in a subfolder with the name of the current sheet (for now the third one in the downloaded Excel file).  The current sheet and subfolder name has format **yyyy-mm-dd** which currently is **2024-05-25**. As HAVV data is updated when new sheets, future runs will automatically create folders with the latest sheet name.  This allows easy comparisons over time between folders.
 
-[Many Excel files have a sheetname prefix so they will have distinct names -- this is to avoid a problem since Microsoft does not allow two Excel files with the same to be opened at the same time for comparison.]
+[Many Excel files have a sheetname suffix added to the filename so they will have distinct names -- this is to avoid a problem since Microsoft does not allow two Excel files with the same to be opened at the same time for comparison.]
 
 The data are explored for "bad" values and inconsistencies.  See R script for details of problem data and fixes applied.  Government data files that are not regularly used in analysis often have a variety of "bad data" issues.
 
@@ -55,6 +75,8 @@ All 700+ HAVV sheets are combined into a single sheet in an Excel file -- this f
 
   + **HAVV-Through-yyyy-mm-dd.xlsx**
   + **HAVV-Through-2024-05-25.csv**
+
+The four-line field names in the HAVV file are shortened in these new files.
 
 These files can be filtered or sorted in Excel.
 
