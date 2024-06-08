@@ -14,7 +14,7 @@ The online data is not useful for analysis. The [Excel file with all the data in
 
 *The State submits the last digits of the SSN, name, and date of birth to the MVA for verification with SSA. In addition, SSA is required to report whether its records indicate that the registrant is deceased.*
 
-The Social Security site provides this information about the HAVV data fields:
+The Social Security site provides this information about the HAVV data fields provided in a weekly Excel sheet:
 
 1. **Total Transactions**: The total number of verification requests made during the time period.
 
