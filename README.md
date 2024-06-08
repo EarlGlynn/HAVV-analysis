@@ -71,7 +71,7 @@ Y_Single_Match_Deceased
 Z_Total_Nonmatches
 ```
 
-Here is the R code used to create values for the plots:
+Here is the R code used to create values `PercentNonMatch` and `PercentMatchDeceased` for the plots (red and black lines below):
 
 ```
 PercentNonMatch = round(100 * Z_Total_Nonmatches / Total_Transactions, 3),
