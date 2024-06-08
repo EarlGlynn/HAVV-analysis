@@ -111,7 +111,7 @@ Note: Please address questions about the use of the system by any particular sta
 
 ## What do these terms mean?
 
-The following list describes the types of data in the HAVV dataset.
+The following list describes the types of weekly data in the HAVV dataset:
 
 1. **Total Transactions**: The total number of verification requests made during the time period.
 
