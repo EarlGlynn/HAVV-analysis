@@ -61,6 +61,29 @@ These files can be filtered or sorted in Excel.
 
 In addition to all the original HAVV data, some percentages are computed, as well as some date variables that may be useful for filtering or plots.
 
+The fields in the HAVV file used in computations useful for the plots include:
+
+* Total_Transactions
+
+* Total_Matches
+
+* T_Multiple_Match_Deceased
+
+* * Y_Single_Match_Deceased
+
+* Z_Total_Nonmatches
+
+
+Here is the R code used to create values for the plots:
+
+```
+     PercentNonMatch      = round(100 * Z_Total_Nonmatches / Total_Transactions, 3),
+
+     # ignore W_Multiple_Match_Mixed since it's ambiguous
+     PercentMatchDeceased = round(100 * (Y_Single_Match_Deceased +
+                                        T_Multiple_Match_Deceased) / Total_Matches, 3),
+```
+
 * **State-Data** folder
 
 This folder has one Excel file by state containing all 700+ sheets of summary data for that state in sheet order (an ISO 8601 date).
@@ -81,6 +104,14 @@ The RStudio notebook **HAVV-Plot-Template.Rmd** can be use to create a plot for 
 This template is intended to be used with the **HAVV-Plot-Driver.Rmd** to creat plots in a subfolder **States-Plots**, which will contain a combination of PNG and PDF graphics files.
 
 The template notebook reads the composite file **HAVV-Through-yyyy-mm-dd.xlsx** for the HAVV data to create all plots.
+
+Fields of interest from this file for the plots shown in the examples below:
+
+* **Total_Transactions**
+
+* **PercentNonMatch**
+
+* **PercentMatchDeceased**
 
 The current driver notebook finds the most current yyyy-mdd-dd subfolder automatically.
 
