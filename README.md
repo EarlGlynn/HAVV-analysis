@@ -54,7 +54,6 @@ Some other states have very low or erratic reporting over time:  Delaware, Missi
 All 700+ HAVV sheets are combined into a single sheet in an Excel file -- this file is much easier to use in analysis than the original file.  A separate CSV file with the same content is also created.
 
   + **HAVV-Through-yyyy-mm-dd.xlsx**
-
   + **HAVV-Through-2024-05-25.csv**
 
 These files can be filtered or sorted in Excel.
@@ -105,9 +104,7 @@ The template notebook reads the composite file **HAVV-Through-yyyy-mm-dd.xlsx** 
 Fields of interest from this file for the plots shown in the examples below:
 
 * **Total_Transactions**
-
 * **PercentNonMatch**
-
 * **PercentMatchDeceased**
 
 The current driver notebook finds the most current yyyy-mdd-dd subfolder automatically.
