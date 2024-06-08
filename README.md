@@ -129,11 +129,11 @@ Fields of interest from this file for the plots shown in the examples below:
 * **PercentNonMatch** (red lines in plots)
 * **PercentMatchDeceased** (black lines in plots)
 
-The current driver notebook finds the most current yyyy-mdd-dd subfolder automatically.
+The current driver notebook finds the most current yyyy-mm-dd subfolder automatically.
 
 Columns in the state summary are used to suppress creation of plots for states not using HAVV.
 
-TO DO:  The year grid lines in the composite ggplot do not quite align across all three subplots.  The goal is to make the year lines align across plots for easier comparisons.
+TO DO:  The year grid lines in the composite *ggplot* do not quite align across all three subplots.  The goal is to make the year lines align across plots for easier comparisons.
 
 
 ---
@@ -160,7 +160,7 @@ A "normal" pattern was then seen in late 2023 and so far in 2024.
 
 A software update might explain the huge transaction spike from mid-2020 through mid-2021 (blue line) -- the only two "valleys" in this spike were over Thanksgiving and Christmas weeks.
 
-The total transactions over this period suggest the whole Kanas voter file was processed through HAVV during that time.  But why was that done since HAVV supposedly is only for new applications?
+The total transactions over this period suggest the whole Kansas voter file was processed through HAVV during that time.  But why was that done since HAVV supposedly is only for new applications?
 
 The nonmatching rate (red line) while the whole state file was processed was about 25%.  Why would 25% of the Kansas voter file not match with Social Security?
 
@@ -178,9 +178,9 @@ But of those 835 matches, the HAVV data shows 447 were "Single Match Deceased", 
 
 What explains the pattern changes in Maryland starting in early 2022?
 
-Why is the nonmatching rate setting new records in 2022-2024
+Why is the nonmatching rate setting new records in 2022-2024?
 
-Why did the deceased match rates set a new record in mid-2022>
+Why did the deceased match rates set a new record in mid-2022?
 
 ![alt text](Maryland-HAVV-Data-2024-05-25.png "HAVV Data for Maryland")
 
@@ -189,7 +189,7 @@ Why did the deceased match rates set a new record in mid-2022>
 
 Why does New York's nonmatch rate spike periodically over 90% and is still 40% almost all the time?
 
-It's curious that New York's match death rate is so much lower than other stats.
+It's curious that New York's match death rate is much lower than many other states.
 
 ![alt text](New-York-HAVV-Data-2024-05-25.png "HAVV Data for New York")
 
@@ -205,7 +205,7 @@ It's curious that Oregon's nonmatch rate has been trending downward since about 
 ---
 ### Texas
 
-Texas has perahps the largest transaction numbers of any state.
+Texas has perhaps the largest transaction numbers of any state.
 
 What's causing the changes in the nonmatch rate and the match but deceased rates since late 2022?
 
