@@ -125,13 +125,13 @@ The template notebook reads the composite file **HAVV-Through-yyyy-mm-dd.xlsx** 
 
 Fields of interest from this file for the plots shown in the examples below:
 
-* **Total_Transactions**
-* **PercentNonMatch**
-* **PercentMatchDeceased**
+* **Total_Transactions** (blue lines in plots)
+* **PercentNonMatch** (red lines in plots)
+* **PercentMatchDeceased** (black lines in plots)
 
 The current driver notebook finds the most current yyyy-mdd-dd subfolder automatically.
 
-Columns in the state summary are used to suppress creation of plots for state not using HAVV.
+Columns in the state summary are used to suppress creation of plots for states not using HAVV.
 
 TO DO:  The year grid lines in the composite ggplot do not quite align across all three subplots.  The goal is to make the year lines align across plots for easier comparisons.
 
