@@ -198,7 +198,7 @@ It's curious that New York's match death rate is much lower than many other stat
 
 Oregon has a periodic spike in transactions before Nov. general elections.  Why was the spike in 2022 so small compare with other years?
 
-It's curious that Oregon's nonmatch rate has been trending downward since about 2019, bu the nonmatch death rate is going up during this same period.
+It's curious that Oregon's nonmatch rate has been trending downward since about 2019, but the match deceased rate is going up during this same period.
 
 ![alt text](Oregon-HAVV-Data-2024-05-25.png "HAVV Data for Oregon")
 
