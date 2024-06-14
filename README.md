@@ -196,7 +196,7 @@ It's curious that New York's match death rate is much lower than many other stat
 ---
 ### Oregon
 
-Oregon has a periodic spike in transactions before Nov. general elections.  Why was the spike in 2022 so small compare with other years?
+Oregon has a periodic spike in transactions before Nov. general elections.  Why was the spike in 2022 so small compare to other years?
 
 It's curious that Oregon's nonmatch rate has been trending downward since about 2019, but the match deceased rate is going up during this same period.
 
