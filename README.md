@@ -43,7 +43,7 @@ This approach starts with the authoritative Social Security HAVV data source and
 
 The RStudio notebook **HAVV-First-Look.Rmd** downloads the current HAVV Excel file from the Social Security site and provides a first look at the 700+ sheets in the file.
 
-Output files and folders are created in a subfolder with the name of the current sheet (for now the third one in the downloaded Excel file).  The current sheet and subfolder name has format **yyyy-mm-dd** which currently is **2024-05-25**. As HAVV data is updated when new sheets, future runs will automatically create folders with the latest sheet name.  This allows easy comparisons over time between folders.
+Output files and folders are created in a subfolder with the name of the current sheet (for now the third one in the downloaded Excel file).  The current sheet and subfolder name has format **yyyy-mm-dd** which currently is **2024-06-22**. As HAVV data is updated when new sheets, future runs will automatically create folders with the latest sheet name.  This allows easy comparisons over time between folders.
 
 [Many Excel files have a sheetname suffix added to the filename so they will have distinct names -- this is to avoid a problem since Microsoft does not allow two Excel files with the same to be opened at the same time for comparison.]
 
@@ -74,7 +74,7 @@ Some other states have very low or erratic reporting over time:  Delaware, Missi
 All 700+ HAVV sheets are combined into a single sheet in an Excel file -- this file is much easier to use in analysis than the original file.  A separate CSV file with the same content is also created.
 
   + **HAVV-Through-yyyy-mm-dd.xlsx**
-  + **HAVV-Through-2024-05-25.csv**
+  + **HAVV-Through-2024-06-22.csv**
 
 The four-line field names in the HAVV file are shortened in these new files.
 
@@ -153,7 +153,7 @@ For some reason transaction volume in Illinois (blue line) was down in 2022 and 
 
 A "normal" pattern was then seen in late 2023 and so far in 2024.
 
-![alt text](Illinois-HAVV-Data-2024-05-25.png "HAVV Data for Illinois")
+![alt text](Illinois-HAVV-Data-2024-06-22.png "HAVV Data for Illinois")
 
 ---
 ### Kansas
@@ -171,7 +171,7 @@ During the week of March 23, 2024 the HAVV file shows Kansas had 1067 total tran
 But of those 835 matches, the HAVV data shows 447 were "Single Match Deceased", which indicates 53.5% of the matches were possibly deceased.  Isn't this an unusually high death rate and worthy of investigation?
 
 
-![alt text](Kansas-HAVV-Data-2024-05-25.png "HAVV Data for Kansas")
+![alt text](Kansas-HAVV-Data-2024-06-22.png "HAVV Data for Kansas")
 
 ---
 ### Maryland
@@ -182,7 +182,7 @@ Why is the nonmatching rate setting new records in 2022-2024?
 
 Why did the deceased match rates set a new record in mid-2022?
 
-![alt text](Maryland-HAVV-Data-2024-05-25.png "HAVV Data for Maryland")
+![alt text](Maryland-HAVV-Data-2024-06-22.png "HAVV Data for Maryland")
 
 ---
 ### New York
@@ -191,7 +191,7 @@ Why does New York's nonmatch rate spike periodically over 90% and is still 40% a
 
 It's curious that New York's match death rate is much lower than many other states.
 
-![alt text](New-York-HAVV-Data-2024-05-25.png "HAVV Data for New York")
+![alt text](New-York-HAVV-Data-2024-06-22.png "HAVV Data for New York")
 
 ---
 ### Oregon
@@ -200,7 +200,7 @@ Oregon has a periodic spike in transactions before Nov. general elections.  Why 
 
 It's curious that Oregon's nonmatch rate has been trending downward since about 2019, but the match deceased rate is going up during this same period.
 
-![alt text](Oregon-HAVV-Data-2024-05-25.png "HAVV Data for Oregon")
+![alt text](Oregon-HAVV-Data-2024-06-22.png "HAVV Data for Oregon")
 
 ---
 ### Texas
@@ -209,7 +209,7 @@ Texas has perhaps the largest transaction numbers of any state.
 
 What's causing the changes in the nonmatch rate and the match but deceased rates since late 2022?
 
-![alt text](Texas-HAVV-Data-2024-05-25.png "HAVV Data for Texas")
+![alt text](Texas-HAVV-Data-2024-06-22.png "HAVV Data for Texas")
 
 ---
 Acknowledgement:  [Thanks to the Lone Racoon, Jeff O'Donnell, for his pioneering work on HAVV data](https://magaraccoon.com/docs/2020%20HAVV%20LOOKUP%20NATIONAL%20ANALYSIS.pdf).

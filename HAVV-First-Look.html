@@ -11,7 +11,7 @@
 
 <meta name="author" content="Earl F Glynn watchdoglab.substack.com" />
 
-<meta name="date" content="2024-06-06" />
+<meta name="date" content="2024-06-27" />
 
 <title>Help America Vote Verification (HAVV) Data – First Look</title>
 
@@ -1815,7 +1815,7 @@ border-radius: 0px;
 – First Look</h1>
 <h4 class="author">Earl F
 Glynn<br><small>watchdoglab.substack.com</small></h4>
-<h4 class="date"><small>2024-06-06</small></h4>
+<h4 class="date"><small>2024-06-27</small></h4>
 
 </div>
 
@@ -1965,12 +1965,12 @@ file</h2>
         )
 
 dim(sheets)</code></pre>
-<pre><code>[1] 714   5</code></pre>
+<pre><code>[1] 718   5</code></pre>
 <p>Third <code>name</code> is the most recent sheet (after sheets
 <code>totals-since-2011</code> and <code>totals-2024</code>)</p>
 <pre class="r"><code>recentDate &lt;- sheets$name[3]
 recentDate</code></pre>
-<pre><code>[1] &quot;2024-05-25&quot;</code></pre>
+<pre><code>[1] &quot;2024-06-22&quot;</code></pre>
 </div>
 <div id="rename-file-with-most-recent-date" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Rename file with most
@@ -2013,10 +2013,10 @@ exe
 <tbody>
 <tr>
 <td style="text-align:left;">
-havv-weekly-usage-2024-05-25.xlsx
+havv-weekly-usage-2024-06-22.xlsx
 </td>
 <td style="text-align:right;">
-6182212
+5795534
 </td>
 <td style="text-align:left;">
 FALSE
@@ -2025,13 +2025,13 @@ FALSE
 666
 </td>
 <td style="text-align:left;">
-2024-06-06 01:06:31
+2024-06-27 10:55:30
 </td>
 <td style="text-align:left;">
-2024-06-06 01:06:29
+2024-06-27 10:55:26
 </td>
 <td style="text-align:left;">
-2024-06-06 01:06:31
+2024-06-27 10:55:30
 </td>
 <td style="text-align:left;">
 no
@@ -2041,8 +2041,8 @@ no
 </table>
 </div>
 <pre class="r"><code>md5sum(filename)  # Record `md5sum` so future changes can be detected</code></pre>
-<pre><code> havv-weekly-usage-2024-05-25.xlsx 
-&quot;286b77152462bc0a6a49b54b5817bfd2&quot; </code></pre>
+<pre><code> havv-weekly-usage-2024-06-22.xlsx 
+&quot;8462de7ad8a404258f34ec3c7694098d&quot; </code></pre>
 </div>
 <div id="create-folder-for-recent-version" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Create folder for
@@ -2069,7 +2069,7 @@ first four characters.</p>
 <pre class="r"><code>table(str_sub(sheets$name, 1, 4))</code></pre>
 <pre><code>
 0909 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 tota 
-   1   52   52   52   52   52   53   51   52   52   52   52   53   52   21   15 </code></pre>
+   1   52   52   52   52   52   53   51   52   52   52   52   53   52   25   15 </code></pre>
 </div>
 </div>
 <div id="recent-weekly-update" class="section level1" number="3">
@@ -2401,14 +2401,14 @@ explore.</p>
     }
   }
 }</code></pre>
-<pre><code>360 09092017 57 10 
-555 2014-01-04 71 10 
-573 2013-09-07 57 16138 
-574 2013-08-31 57 16138 
-575 2013-08-24 57 16138 
-576 2013-08-17 57 16138 
-577 2013-08-10 57 16138 
-579 2013-07-27 57 16138 </code></pre>
+<pre><code>364 09092017 57 10 
+559 2014-01-04 71 10 
+577 2013-09-07 57 16138 
+578 2013-08-31 57 16138 
+579 2013-08-24 57 16138 
+580 2013-08-17 57 16138 
+581 2013-08-10 57 16138 
+583 2013-07-27 57 16138 </code></pre>
 <p>Review of problem sheets:</p>
 <ul>
 <li><p><code>09092017</code> has the wrong date format. Should be:
@@ -2472,7 +2472,7 @@ explore.</p>
   }
 
 }</code></pre>
-<pre><code>629 2012-08-18 Column names mismatch
+<pre><code>633 2012-08-18 Column names mismatch
 STATE/TERRITORY|-|-|-|- -|-|TOTAL|TRANSACTIONS|- -|UN|PROCESSED|TRANSACTIONS|- (Z)|TOTAL|NON|MATCHES|- -|-|TOTAL|MATCHES|- (X)|SINGLE|MATCH|ALIVE|- (Y)|SINGLE|MATCH|DECEASED|- (V)|MULTIPLE|MATCH|ALIVE|- (T)|MULTIPLE|MATCH|DECEASED|- (W)|MULTIPLE|MATCH|MIXED|- </code></pre>
 <p>Review of problem sheet:</p>
 <p>Sheet <code>2012-08-18</code> has a blank row 5 instead of a row of
@@ -2528,7 +2528,7 @@ all sheets into a single tibble.</p>
   map_dfr(\(x) read_havv_sheet(filename, x))
 
 dim(havvAll)</code></pre>
-<pre><code>[1] 37142    11</code></pre>
+<pre><code>[1] 37350    11</code></pre>
 </div>
 </div>
 <div id="cleanup" class="section level1" number="6">
@@ -2561,41 +2561,41 @@ capitalization of states/territories</h2>
 <pre class="r"><code>table(havvAll$State_Territory)</code></pre>
 <pre><code>
              Alabama               Alaska              Arizona 
-                 713                  714                  714 
+                 717                  718                  718 
             Arkansas           California             Colorado 
-                 714                  714                  714 
+                 718                  718                  718 
          Connecticut             Delaware District Of Columbia 
-                 714                  714                  714 
+                 718                  718                  718 
              Florida              Georgia               Hawaii 
-                 714                  714                  715 
+                 718                  718                  719 
                Idaho             Illinois              Indiana 
-                 714                  714                  714 
+                 718                  718                  718 
                 Iowa               Kansas             Kentucky 
-                 714                  714                  714 
+                 718                  718                  718 
            Louisiana                Maine             Maryland 
-                 714                  714                  714 
+                 718                  718                  718 
        Massachusetts             Michigan            Minnesota 
-                 714                  714                  714 
+                 718                  718                  718 
          Mississippi             Missouri              Montana 
-                 714                  714                  714 
+                 718                  718                  718 
             Nebraska               Nevada        New Hampshire 
-                 714                  714                  714 
+                 718                  718                  718 
           New Jersey           New Mexico             New York 
-                 714                  714                  714 
+                 718                  718                  718 
       North Carolina         North Dakota                 Ohio 
-                 714                  714                  714 
+                 718                  718                  718 
             Oklahoma               Oregon         Pennsylvania 
-                 714                  714                  714 
+                 718                  718                  718 
         Rhode Island       South Carolina         South Dakota 
-                 714                  714                  714 
+                 718                  718                  718 
            Tennessee                Texas                Total 
-                 714                  714                  714 
+                 718                  718                  718 
                 Utah              Vermont             Virginia 
-                 714                  714                  714 
+                 718                  718                  718 
           Washington        West Virginia            Wisconsin 
-                 714                  714                  714 
+                 718                  718                  718 
              Wyoming 
-                 714 </code></pre>
+                 718 </code></pre>
 <p>Note <code>Total</code> “state” is listed with each sheet.</p>
 </div>
 <div id="fix-problem-sheet-name" class="section level2" number="6.3">
@@ -2951,7 +2951,9 @@ name</h2>
                52                52                52                52 
        2024-04-13        2024-04-20        2024-04-27        2024-05-04 
                52                52                52                52 
-       2024-05-11        2024-05-18        2024-05-25       totals-2011 
+       2024-05-11        2024-05-18        2024-05-25        2024-06-01 
+               52                52                52                52 
+       2024-06-08        2024-06-15        2024-06-22       totals-2011 
                52                52                52                52 
       totals-2012       totals-2013       totals-2014       totals-2015 
                52                52                52                52 
@@ -3029,7 +3031,7 @@ versions of combined data</h1>
 write_csv (havvAll, paste0(RECENT_FOLDER, &quot;/HAVV-Through-&quot;,recentDate, &quot;.csv&quot;))
 
 nrow(havvAll)</code></pre>
-<pre><code>[1] 37142</code></pre>
+<pre><code>[1] 37350</code></pre>
 </div>
 <div id="state-summary" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> State summary</h1>
@@ -3043,7 +3045,7 @@ top.</p>
   arrange(State_Territory, Year, Date)
 
 dim(havvAll)</code></pre>
-<pre><code>[1] 37142    18</code></pre>
+<pre><code>[1] 37350    18</code></pre>
 <pre class="r"><code>write_xlsx(havvAll, paste0(RECENT_FOLDER, &quot;/HAVV-by-State-Through-&quot;,recentDate, &quot;.xlsx&quot;))</code></pre>
 </div>
 <div id="split-by-state" class="section level2" number="8.2">
@@ -3103,7 +3105,7 @@ dim(stateSummary)</code></pre>
   filter(!is.na(Date))   # ignore total rows
 
 dim(weekly)</code></pre>
-<pre><code>[1] 36362    18</code></pre>
+<pre><code>[1] 36570    18</code></pre>
 <pre class="r"><code>weeklyByState &lt;-
   weekly                    |&gt;
   group_by(State_Territory) |&gt;
@@ -3191,13 +3193,13 @@ AllZero
 Alabama
 </td>
 <td style="text-align:right;">
-698
+702
 </td>
 <td style="text-align:right;">
 187
 </td>
 <td style="text-align:right;">
-2049
+2052
 </td>
 <td style="text-align:right;">
 1012
@@ -3224,7 +3226,7 @@ Alabama
 15
 </td>
 <td style="text-align:right;">
-10
+11
 </td>
 <td style="text-align:right;">
 85.355
@@ -3241,13 +3243,13 @@ FALSE
 Alaska
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-75
+76
 </td>
 <td style="text-align:right;">
 38
@@ -3291,16 +3293,16 @@ FALSE
 Arizona
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-7496
+7693
 </td>
 <td style="text-align:right;">
-753
+764
 </td>
 <td style="text-align:right;">
 81950
@@ -3341,13 +3343,13 @@ FALSE
 Arkansas
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-4347
+4323
 </td>
 <td style="text-align:right;">
 54
@@ -3391,16 +3393,16 @@ FALSE
 California
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 322
 </td>
 <td style="text-align:right;">
-12843
+12787
 </td>
 <td style="text-align:right;">
-5727
+5705
 </td>
 <td style="text-align:right;">
 129066
@@ -3441,13 +3443,13 @@ FALSE
 Colorado
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-875
+876
 </td>
 <td style="text-align:right;">
 0
@@ -3491,16 +3493,16 @@ FALSE
 Connecticut
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 12
 </td>
 <td style="text-align:right;">
-317
+316
 </td>
 <td style="text-align:right;">
-161
+158
 </td>
 <td style="text-align:right;">
 6492
@@ -3541,7 +3543,7 @@ FALSE
 Delaware
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -3591,7 +3593,7 @@ FALSE
 District Of Columbia
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -3641,13 +3643,13 @@ FALSE
 Florida
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1784
+1779
 </td>
 <td style="text-align:right;">
 879
@@ -3691,16 +3693,16 @@ FALSE
 Georgia
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-2171
+2193
 </td>
 <td style="text-align:right;">
-518
+520
 </td>
 <td style="text-align:right;">
 92793
@@ -3741,13 +3743,13 @@ FALSE
 Hawaii
 </td>
 <td style="text-align:right;">
-700
+704
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-40
+39
 </td>
 <td style="text-align:right;">
 0
@@ -3791,16 +3793,16 @@ FALSE
 Idaho
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-808
+805
 </td>
 <td style="text-align:right;">
-459
+458
 </td>
 <td style="text-align:right;">
 13260
@@ -3841,13 +3843,13 @@ FALSE
 Illinois
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 209
 </td>
 <td style="text-align:right;">
-11705
+11696
 </td>
 <td style="text-align:right;">
 10618
@@ -3891,16 +3893,16 @@ FALSE
 Indiana
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 207
 </td>
 <td style="text-align:right;">
-4205
+4209
 </td>
 <td style="text-align:right;">
-3354
+3357
 </td>
 <td style="text-align:right;">
 30598
@@ -3941,16 +3943,16 @@ FALSE
 Iowa
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 22
 </td>
 <td style="text-align:right;">
-573
+571
 </td>
 <td style="text-align:right;">
-284
+283
 </td>
 <td style="text-align:right;">
 8830
@@ -3991,16 +3993,16 @@ FALSE
 Kansas
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-3169
+3153
 </td>
 <td style="text-align:right;">
-186
+187
 </td>
 <td style="text-align:right;">
 64110
@@ -4024,7 +4026,7 @@ Kansas
 8
 </td>
 <td style="text-align:right;">
-4
+5
 </td>
 <td style="text-align:right;">
 68.137
@@ -4041,7 +4043,7 @@ FALSE
 Kentucky
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4091,16 +4093,16 @@ TRUE
 Louisiana
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 3
 </td>
 <td style="text-align:right;">
-335
+334
 </td>
 <td style="text-align:right;">
-179
+177
 </td>
 <td style="text-align:right;">
 6351
@@ -4141,7 +4143,7 @@ FALSE
 Maine
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4191,16 +4193,16 @@ FALSE
 Maryland
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-682
+690
 </td>
 <td style="text-align:right;">
-267
+268
 </td>
 <td style="text-align:right;">
 12635
@@ -4241,16 +4243,16 @@ FALSE
 Massachusetts
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 15
 </td>
 <td style="text-align:right;">
-457
+455
 </td>
 <td style="text-align:right;">
-250
+249
 </td>
 <td style="text-align:right;">
 13392
@@ -4291,16 +4293,16 @@ FALSE
 Michigan
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-130
+131
 </td>
 <td style="text-align:right;">
-18
+19
 </td>
 <td style="text-align:right;">
 7376
@@ -4341,16 +4343,16 @@ FALSE
 Minnesota
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1123
+1118
 </td>
 <td style="text-align:right;">
-249
+255
 </td>
 <td style="text-align:right;">
 29510
@@ -4391,7 +4393,7 @@ FALSE
 Mississippi
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4412,7 +4414,7 @@ Mississippi
 24
 </td>
 <td style="text-align:right;">
-22
+23
 </td>
 <td style="text-align:right;">
 100.000
@@ -4441,16 +4443,16 @@ FALSE
 Missouri
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-6444
+6522
 </td>
 <td style="text-align:right;">
-2607
+2621
 </td>
 <td style="text-align:right;">
 101773
@@ -4491,7 +4493,7 @@ FALSE
 Montana
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4500,7 +4502,7 @@ Montana
 661
 </td>
 <td style="text-align:right;">
-477
+478
 </td>
 <td style="text-align:right;">
 3964
@@ -4541,13 +4543,13 @@ FALSE
 Nebraska
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-120
+121
 </td>
 <td style="text-align:right;">
 49
@@ -4591,16 +4593,16 @@ FALSE
 Nevada
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
-46
+41
 </td>
 <td style="text-align:right;">
-1272
+1266
 </td>
 <td style="text-align:right;">
-496
+493
 </td>
 <td style="text-align:right;">
 100647
@@ -4641,7 +4643,7 @@ FALSE
 New Hampshire
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4691,16 +4693,16 @@ FALSE
 New Jersey
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-2568
+2575
 </td>
 <td style="text-align:right;">
-1097
+1117
 </td>
 <td style="text-align:right;">
 116165
@@ -4741,7 +4743,7 @@ FALSE
 New Mexico
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4791,13 +4793,13 @@ TRUE
 New York
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-4574
+4568
 </td>
 <td style="text-align:right;">
 2564
@@ -4841,16 +4843,16 @@ FALSE
 North Carolina
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 66
 </td>
 <td style="text-align:right;">
-2472
+2494
 </td>
 <td style="text-align:right;">
-812
+820
 </td>
 <td style="text-align:right;">
 100676
@@ -4891,7 +4893,7 @@ FALSE
 North Dakota
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -4941,16 +4943,16 @@ TRUE
 Ohio
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1197
+1199
 </td>
 <td style="text-align:right;">
-590
+592
 </td>
 <td style="text-align:right;">
 23603
@@ -4991,7 +4993,7 @@ FALSE
 Oklahoma
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -5041,16 +5043,16 @@ FALSE
 Oregon
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1021
+1018
 </td>
 <td style="text-align:right;">
-546
+540
 </td>
 <td style="text-align:right;">
 16060
@@ -5091,16 +5093,16 @@ FALSE
 Pennsylvania
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-7685
+8242
 </td>
 <td style="text-align:right;">
-1102
+1118
 </td>
 <td style="text-align:right;">
 154507
@@ -5141,13 +5143,13 @@ FALSE
 Rhode Island
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-458
+470
 </td>
 <td style="text-align:right;">
 244
@@ -5191,7 +5193,7 @@ FALSE
 South Carolina
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -5241,13 +5243,13 @@ TRUE
 South Dakota
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-208
+209
 </td>
 <td style="text-align:right;">
 131
@@ -5265,7 +5267,7 @@ South Dakota
 17
 </td>
 <td style="text-align:right;">
-47.453
+66.667
 </td>
 <td style="text-align:right;">
 0.000
@@ -5291,7 +5293,7 @@ FALSE
 Tennessee
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -5341,16 +5343,16 @@ TRUE
 Texas
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 269
 </td>
 <td style="text-align:right;">
-36137
+35942
 </td>
 <td style="text-align:right;">
-4365
+4157
 </td>
 <td style="text-align:right;">
 421771
@@ -5391,16 +5393,16 @@ FALSE
 Total
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 23718
 </td>
 <td style="text-align:right;">
-122271
+122844
 </td>
 <td style="text-align:right;">
-80985
+81162
 </td>
 <td style="text-align:right;">
 1686462
@@ -5409,7 +5411,7 @@ Total
 8.509
 </td>
 <td style="text-align:right;">
-34
+33
 </td>
 <td style="text-align:right;">
 29
@@ -5441,7 +5443,7 @@ FALSE
 Utah
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -5491,13 +5493,13 @@ FALSE
 Vermont
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-89
+88
 </td>
 <td style="text-align:right;">
 1
@@ -5541,7 +5543,7 @@ FALSE
 Virginia
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -5591,13 +5593,13 @@ TRUE
 Washington
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-540
+538
 </td>
 <td style="text-align:right;">
 344
@@ -5641,7 +5643,7 @@ FALSE
 West Virginia
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
@@ -5691,16 +5693,16 @@ TRUE
 Wisconsin
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-372
+370
 </td>
 <td style="text-align:right;">
-107
+105
 </td>
 <td style="text-align:right;">
 5423
@@ -5741,16 +5743,16 @@ FALSE
 Wyoming
 </td>
 <td style="text-align:right;">
-699
+703
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-859
+855
 </td>
 <td style="text-align:right;">
-139
+138
 </td>
 <td style="text-align:right;">
 108001
@@ -5814,7 +5816,7 @@ Summary</h2>
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       America/Chicago
- date     2024-06-06
+ date     2024-06-27
  pandoc   3.1.11 @ C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)
 
 ─ Packages ───────────────────────────────────────────────────────────────────
@@ -5917,8 +5919,8 @@ Summary</h2>
 
 ──────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
-<p>Processing time: 493.4 secs</p>
-<p>2024-06-06 0114</p>
+<p>Processing time: 260.4 secs</p>
+<p>2024-06-27 1059</p>
 </div>
 </div>
 
