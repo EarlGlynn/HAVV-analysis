@@ -74,7 +74,7 @@ Some other states have very low or erratic reporting over time:  Delaware, Missi
 All 700+ HAVV sheets are combined into a single sheet in an Excel file -- this file is much easier to use in analysis than the original file.  A separate CSV file with the same content is also created.
 
   + **HAVV-Through-yyyy-mm-dd.xlsx**
-  + **HAVV-Through-2024-06-22.csv**
+  + **HAVV-Through-yyyy-mm-dd.csv**
 
 The four-line field names in the HAVV file are shortened in these new files.
 
@@ -139,6 +139,8 @@ TO DO:  The year grid lines in the composite *ggplot* do not quite align across 
 ---
 # Analysis Examples
 
+Updated with 2024-07-13 data
+
 * Illinois
 * Kansas
 * Maryland
@@ -153,7 +155,7 @@ For some reason transaction volume in Illinois (blue line) was down in 2022 and 
 
 A "normal" pattern was then seen in late 2023 and so far in 2024.
 
-![alt text](Illinois-HAVV-Data-2024-06-22.png "HAVV Data for Illinois")
+![alt text](Illinois-HAVV-Data-2024-07-13.png "HAVV Data for Illinois")
 
 ---
 ### Kansas
@@ -171,7 +173,7 @@ During the week of March 23, 2024 the HAVV file shows Kansas had 1067 total tran
 But of those 835 matches, the HAVV data shows 447 were "Single Match Deceased", which indicates 53.5% of the matches were possibly deceased.  Isn't this an unusually high death rate and worthy of investigation?
 
 
-![alt text](Kansas-HAVV-Data-2024-06-22.png "HAVV Data for Kansas")
+![alt text](Kansas-HAVV-Data-2024-07-13.png "HAVV Data for Kansas")
 
 ---
 ### Maryland
@@ -182,7 +184,7 @@ Why is the nonmatching rate setting new records in 2022-2024?
 
 Why did the deceased match rates set a new record in mid-2022?
 
-![alt text](Maryland-HAVV-Data-2024-06-22.png "HAVV Data for Maryland")
+![alt text](Maryland-HAVV-Data-2024-07-13.png "HAVV Data for Maryland")
 
 ---
 ### New York
@@ -191,7 +193,7 @@ Why does New York's nonmatch rate spike periodically over 90% and is still 40% a
 
 It's curious that New York's match death rate is much lower than many other states.
 
-![alt text](New-York-HAVV-Data-2024-06-22.png "HAVV Data for New York")
+![alt text](New-York-HAVV-Data-2024-07-13.png "HAVV Data for New York")
 
 ---
 ### Oregon
@@ -200,7 +202,7 @@ Oregon has a periodic spike in transactions before Nov. general elections.  Why 
 
 It's curious that Oregon's nonmatch rate has been trending downward since about 2019, but the match deceased rate is going up during this same period.
 
-![alt text](Oregon-HAVV-Data-2024-06-22.png "HAVV Data for Oregon")
+![alt text](Oregon-HAVV-Data-2024-07-13.png "HAVV Data for Oregon")
 
 ---
 ### Texas
@@ -209,7 +211,7 @@ Texas has perhaps the largest transaction numbers of any state.
 
 What's causing the changes in the nonmatch rate and the match but deceased rates since late 2022?
 
-![alt text](Texas-HAVV-Data-2024-06-22.png "HAVV Data for Texas")
+![alt text](Texas-HAVV-Data-2024-07-13.png "HAVV Data for Texas")
 
 ---
 Acknowledgement:  [Thanks to the Lone Racoon, Jeff O'Donnell, for his pioneering work on HAVV data](https://magaraccoon.com/docs/2020%20HAVV%20LOOKUP%20NATIONAL%20ANALYSIS.pdf).
