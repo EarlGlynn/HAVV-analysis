@@ -1,5 +1,14 @@
 # Help America Vote Verification (HAVV) Analysis
 
+This repository contains technical information for these recent substack articles:
+
+* [**Questions about Help America Vote Verification data in many states**](https://watchdoglab.substack.com/p/questions-about-help-america-vote)
+Why does the Social Security Administration often have difficulties verifying new voter registration applicants? Why do so many matches for new applications show deceased?
+
+* [**Understanding Kansas Help America Vote Verification data**](https://watchdoglab.substack.com/p/understanding-kansas-help-america)
+*Plots of Kansas HAVV data show several curiosities*
+
+
 The Social Security Administration provides an Open Government Initiative page with a section about the [Help America Vote Verification (HAVV) Transactions by State](https://www.ssa.gov/open/havv/).
 
 The online data is not useful for analysis. The [Excel file with all the data in over 700 sheets](https://www.ssa.gov/open/havv/havv-weekly-usage.xlsx) is not so useful for direct analysis.
