@@ -3,7 +3,7 @@
 This repository contains technical information for these recent substack articles:
 
 * [**Questions about Help America Vote Verification data in many states**](https://watchdoglab.substack.com/p/questions-about-help-america-vote)
-Why does the Social Security Administration often have difficulties verifying new voter registration applicants? Why do so many matches for new applications show deceased?
+*Why does the Social Security Administration often have difficulties verifying new voter registration applicants? Why do so many matches for new applications show deceased?*
 
 * [**Understanding Kansas Help America Vote Verification data**](https://watchdoglab.substack.com/p/understanding-kansas-help-america)
 *Plots of Kansas HAVV data show several curiosities*
