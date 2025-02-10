@@ -11,9 +11,10 @@ output:
     number_sections: yes
     code_folding:  show
 params:
-  DataDate:    "2024-05-25"
+  DataDate:    "2025-01-25"
   FirstYear:   2014
-  LastYear:    2025
+  LastYear:    2026
+  YearDelta:     10  # months, normally 0; use to chop unused year in plot
   TargetArea:  "Kansas"
 title: "Help America Vote Verification (HAVV) Data -- `r params$TargetArea`"
 author: "Earl F Glynn<br><small>watchdoglab.substack.com</small>"
@@ -174,7 +175,7 @@ dim(targetArea)
 
 ```{r SetRange}
 startDate <- as.POSIXct(paste0(params$FirstYear, "-01-01"))
-endDate   <- startDate + years(params$LastYear - params$FirstYear)
+endDate   <- startDate + years(params$LastYear - params$FirstYear) - months(10)
 ```
 
 ```{r TotalTransactions, fig.width = 8, fig.height = 3.5, warning = FALSE}

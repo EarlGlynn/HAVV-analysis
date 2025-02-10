@@ -135,8 +135,10 @@ for (i in 1:nrow(stateList))
                          quiet  = TRUE,
                          params = list(
                                         DataDate    = RECENT_FOLDER,
-                                        FirstYear   = 2014,
-                                        LastYear    = 2025,
+                                        FirstYear   = 2022,
+                                        LastYear    = 2026,
+                                        YearDelta   =   10,  # normally 0 to show full year; 
+                                                             #backup YearDelta months in x axis
                                         TargetArea  = stateList$State_Territory[i]
                                       )
                        )
