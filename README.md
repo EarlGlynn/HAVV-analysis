@@ -1,11 +1,13 @@
 # Help America Vote Verification (HAVV) Analysis
 
 ---
-Information in this repository is now obsolete.
+
+**Information in this repository is now obsolete**
 
 In June 2026 Social Security introduced a a new Open Data Portal for HAVV Transactions by State.
 
-See this new [Help America Vote Verification (HAVV) Analysis respository](https://github.com/EarlGlynn/Help-America-Vote-Verification).
+See this new repository: [Help America Vote Verification (HAVV) Analysis](https://github.com/EarlGlynn/Help-America-Vote-Verification).
+
 ---
 
 This repository contains technical information for these recent substack articles:
